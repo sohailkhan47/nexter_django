@@ -1,0 +1,55 @@
+{% load static %}
+<header class="header">
+    <img src="{% static 'img/logo.png' %}" alt="Nexter logo" class="header__logo" />
+    <nav class="header__nav hidden">
+      <ul class="header__list">
+        <li 
+          {% if '/' == request.path %}
+            class="header__item active"
+          {% else %}
+          class="header__item"
+          {% endif %}
+        >
+          <a href="{% url 'index' %}" class="header__link">Home</a>
+        </li>
+        <li 
+          {% if 'about' in request.path %}
+            class="header__item active"
+          {% else %}
+            class="header__item"
+          {% endif %}
+        >
+          <a href="{% url 'about' %}" class="header__link">About</a>
+        </li>
+        <li 
+          {% if 'listings' in request.path %}
+            class="header__item active"
+          {% else %}
+            class="header__item"
+          {% endif %}
+        >
+          <a href="{% url 'listings' %}" class="header__link">Listings</a>
+        </li>
+        <li class="header__item">
+          <a href="login.html" class="header__link header__icons">
+            <svg class="header__icon">
+              <use xlink:href="{% static 'img/sprite.svg' %}#icon-log-out"></use></svg
+            >Login</a
+          >
+        </li>
+        <li class="header__item">
+          <a href="signup.html" class="header__link header__icons">
+            <svg class="header__icon">
+              <use xlink:href="{% static 'img/sprite.svg' %}#icon-add-user"></use></svg
+            >Sign up</a
+          >
+        </li>
+      </ul>
+    </nav>
+    <svg class="header__btn open">
+      <use xlink:href="{% static 'img/sprite.svg#icon-bars' %}"></use>
+    </svg>
+    <svg class="header__btn hidden close">
+      <use xlink:href="img/sprite.svg#icon-close"></use>
+    </svg>
+  </header>
