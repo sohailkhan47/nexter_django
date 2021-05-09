@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
-
+{% load static %}
+{% load humanize %}
 {% block content %}
 <!--Showcase Start-->
 <div class="showcase">
@@ -23,260 +24,96 @@
 
   <!-- Listings Homes section start -->
   <section class="homes mt-osection mb-osection">
+
     <!-- Listing 1-->
-    <div class="home">
-      <img src="img/house-1.jpeg" alt="House 1" class="home__img" />
-      <svg class="home__like">
-        <use xlink:href="img/sprite.svg#icon-heart-outlined"></use>
-      </svg>
-      <h5 class="home__name">Beautiful family house</h5>
-
-      <div class="home__location">
+    {% if listings %}
+      {% for listing in listings %}
+      <div class="home">
+        <img src="{{ listing.photo_main.url }}" alt="House 1" class="home__img" />
         <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-map-pin"></use>
+          <use xlink:href="{% static 'img/sprite.svg' %}#icon-heart-outlined"></use>
         </svg>
-        <p>USA</p>
+        <h5 class="home__name">{{ listing.title }}</h5>
+  
+        <div class="home__location">
+          <svg class="home__like">
+            <use xlink:href="{% static 'img/sprite.svg' %}#icon-map-pin"></use>
+            <p>{{listing.country}}</p>
+          </svg>
+        </div>
+  
+        <div class="home__rooms">
+          <svg class="home__like">
+            <use xlink:href="{% static 'img/sprite.svg' %}#icon-profile-male"></use>
+          </svg>
+          <p>{{ listing.rooms }} rooms</p>
+        </div>
+  
+        <div class="home__area">
+          <svg class="home__like">
+            <use xlink:href="{% static 'img/sprite.svg' %}#icon-expand"></use>
+          </svg>
+          <p>{{ listing.sqft }} m<sup>2</sup></p>
+        </div>
+  
+        <div class="home__price">
+          <svg class="home__like">
+            <use xlink:href="{% static 'img/sprite.svg' %}#icon-key"></use>
+          </svg>
+          <p>${{ listing.price | intcomma}}</p>
+        </div>
+        <a href="{% url 'listing' listing.id %}" class="btn home__btn">More Information</a>
+        <!-- <button class="btn home__btn">More Information</button> -->
       </div>
-
-      <div class="home__rooms">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-profile-male"></use>
-        </svg>
-        <p>5 rooms</p>
+      {% endfor %}
+    {% else %}
+      <div class="nolisting">
+        <p class="nolisting__text" style="font-size: 1.8rem">No Listing yet</p>
       </div>
-
-      <div class="home__area">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-expand"></use>
-        </svg>
-        <p>325 m<sup>2</sup></p>
-      </div>
-
-      <div class="home__price">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-key"></use>
-        </svg>
-        <p>$1,200,000</p>
-      </div>
-      <a href="listing.html" class="btn home__btn">More Information</a>
-      <!-- <button class="btn home__btn">More Information</button> -->
-    </div>
-
-    <!--Listing 2-->
-    <div class="home">
-      <img src="img/house-2.jpeg" alt="House 2" class="home__img" />
-      <svg class="home__like">
-        <use xlink:href="img/sprite.svg#icon-heart-outlined"></use>
-      </svg>
-      <h5 class="home__name">Modern Glass Villa</h5>
-
-      <div class="home__location">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-map-pin"></use>
-        </svg>
-        <p>Cananda</p>
-      </div>
-
-      <div class="home__rooms">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-profile-male"></use>
-        </svg>
-        <p>6 rooms</p>
-      </div>
-
-      <div class="home__area">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-expand"></use>
-        </svg>
-        <p>450 m<sup>2</sup></p>
-      </div>
-
-      <div class="home__price">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-key"></use>
-        </svg>
-        <p>$2,750,000</p>
-      </div>
-      <a href="#" class="btn home__btn">More Information</a>
-      <!-- <button class="btn home__btn">More Information</button> -->
-    </div>
-
-    <!-- Listing 3-->
-    <div class="home">
-      <img src="img/house-3.jpeg" alt="House 3" class="home__img" />
-      <svg class="home__like">
-        <use xlink:href="img/sprite.svg#icon-heart-outlined"></use>
-      </svg>
-      <h5 class="home__name">Cozy Country House</h5>
-
-      <div class="home__location">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-map-pin"></use>
-        </svg>
-        <p>UK</p>
-      </div>
-
-      <div class="home__rooms">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-profile-male"></use>
-        </svg>
-        <p>4 rooms</p>
-      </div>
-
-      <div class="home__area">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-expand"></use>
-        </svg>
-        <p>250 m<sup>2</sup></p>
-      </div>
-
-      <div class="home__price">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-key"></use>
-        </svg>
-        <p>$850,000</p>
-      </div>
-      <a href="#" class="btn home__btn">More Information</a>
-      <!-- <button class="btn home__btn">More Information</button> -->
-    </div>
-
-    <!--Listing 4-->
-    <div class="home">
-      <img src="img/house-4.jpeg" alt="House 4" class="home__img" />
-      <svg class="home__like">
-        <use xlink:href="img/sprite.svg#icon-heart-outlined"></use>
-      </svg>
-      <h5 class="home__name">Large Rustical Villa</h5>
-
-      <div class="home__location">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-map-pin"></use>
-        </svg>
-        <p>Portugal</p>
-      </div>
-
-      <div class="home__rooms">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-profile-male"></use>
-        </svg>
-        <p>6 rooms</p>
-      </div>
-
-      <div class="home__area">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-expand"></use>
-        </svg>
-        <p>480 m<sup>2</sup></p>
-      </div>
-
-      <div class="home__price">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-key"></use>
-        </svg>
-        <p>$1,950,000</p>
-      </div>
-      <a href="#" class="btn home__btn">More Information</a>
-      <!-- <button class="btn home__btn">More Information</button> -->
-    </div>
-
-    <!-- Listing 5 -->
-    <div class="home">
-      <img src="img/house-5.jpeg" alt="House 5" class="home__img" />
-      <svg class="home__like">
-        <use xlink:href="img/sprite.svg#icon-heart-outlined"></use>
-      </svg>
-      <h5 class="home__name">Majestic Palace House</h5>
-
-      <div class="home__location">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-map-pin"></use>
-        </svg>
-        <p>Germany</p>
-      </div>
-
-      <div class="home__rooms">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-profile-male"></use>
-        </svg>
-        <p>18 rooms</p>
-      </div>
-
-      <div class="home__area">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-expand"></use>
-        </svg>
-        <p>4230 m<sup>2</sup></p>
-      </div>
-
-      <div class="home__price">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-key"></use>
-        </svg>
-        <p>$9,500,000</p>
-      </div>
-      <a href="#" class="btn home__btn">More Information</a>
-      <!-- <button class="btn home__btn">More Information</button> -->
-    </div>
-
-    <!-- Listing 6 -->
-    <div class="home">
-      <img src="img/house-6.jpeg" alt="House 6" class="home__img" />
-      <svg class="home__like">
-        <use xlink:href="img/sprite.svg#icon-heart-outlined"></use>
-      </svg>
-      <h5 class="home__name">Modern Family Apartment</h5>
-
-      <div class="home__location">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-map-pin"></use>
-        </svg>
-        <p>Italy</p>
-      </div>
-
-      <div class="home__rooms">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-profile-male"></use>
-        </svg>
-        <p>3 rooms</p>
-      </div>
-
-      <div class="home__area">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-expand"></use>
-        </svg>
-        <p>180 m<sup>2</sup></p>
-      </div>
-
-      <div class="home__price">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-key"></use>
-        </svg>
-        <p>$600,000</p>
-      </div>
-      <a href="#" class="btn home__btn">More Information</a>
-      <!-- <button class="btn home__btn">More Information</button> -->
-    </div>
+    {% endif %}    
   </section>
 
   <!-- Pagination -->
   <div class="pagination__container mb-osection">
+    {% if listings.has_other_pages %}
     <ul class="pagination">
-      <li class="pagination__item disabled">
-        <a href="#" class="pagination__link">&laquo;</a>
-      </li>
-      <li class="pagination__item disabled">
-        <a href="#" class="pagination__link pagination__active">1</a>
-      </li>
-      <li class="pagination__item">
-        <a href="#" class="pagination__link">2</a>
-      </li>
-      <li class="pagination__item">
-        <a href="#" class="pagination__link">3</a>
-      </li>
-      <li class="pagination__item">
-        <a href="#" class="pagination__link">&raquo;</a>
-      </li>
+      {% if listings.has_previous %}
+        <li class="pagination__item">
+          <a href="?page={{listings.previous_page_number}}" class="pagination__link">&laquo;</a>
+        </li>
+      {% else %}
+        <li class="pagination__item disabled">
+          <a href="#" class="pagination__link">&laquo;</a>
+        </li>      
+      {% endif %}
+      {% for i in listings.paginator.page_range %}
+        {% if listings.number == i%}
+          <li class="pagination__item disabled ">
+            <a href="#" class="pagination__link pagination__active">{{i}}</a>
+          </li>
+        {% else %}
+          <li class="pagination__item">
+            <a href="?page={{ i }}" class="pagination__link">{{ i }}</a>
+          </li>
+        {% endif %}
+      {% endfor %}
+      
+      {% if listings.has_next %}
+          <li class="pagination__item">
+            <a href="?page={{listings.next_page_number}}" class="pagination__link">&raquo;</a>
+          </li>
+      {% else %}
+          <li class="pagination__item disabled"><a href="#" class="pagination__link">&raquo;</a></li>
+      {% endif %}
     </ul>
+    {% endif %}
+    </div>
   </div>
-
+  <!-- <li class="pagination__item disabled">
+    <a href="#" class="pagination__link">&laquo;</a>
+  </li>
+  <li class="pagination__item disabled">
+    <a href="#" class="pagination__link pagination__active">1</a>
+  </li>
+   -->
 {% endblock %}
