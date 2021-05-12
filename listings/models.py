@@ -7,7 +7,7 @@ class Listing(models.Model):
     title = models.CharField(max_length=200)
     address = models.CharField(max_length=200)
     city = models.CharField(max_length=100)
-    state = models.CharField(max_length=100)
+    province = models.CharField(max_length=100)
     zipcode = models.CharField(max_length=20)
     country = models.CharField(max_length=100)
     description = models.TextField(blank=True)
@@ -24,6 +24,8 @@ class Listing(models.Model):
     photo_6 = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True)
     is_published = models.BooleanField(default=True)
     list_date = models.DateTimeField(default=datetime.now, blank=True)
-
+    
+    is_sold = models.BooleanField(default=False)
+    
     def __str__(self):
         return self.title

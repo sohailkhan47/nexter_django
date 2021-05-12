@@ -1,1 +1,113 @@
-<h1>Search</h1>
+{% extends 'base.html' %}
+{% load humanize %}
+{% load static %}
+{% block content %}
+<!-- Search Properties -->
+<section class="search__main">
+    <form action="{% url 'search' %}" class="search__form">
+      <input
+        type="text"
+        name="keywords"
+        id="keywords"
+        placeholder="Keywords (Pool, Garage etc)"
+        value="{{ values.keywords }}"
+      />
+      <input type="text" name="city" id="city" placeholder="City" value="{{ values.city }}" />
+      <select name="province" id="province">
+        <option selected="true" disabled="disabled">Province (ALL)</option>
+        {% for key,value in province_choices.items %}
+            <option value="{{ key }}"
+            {% if key == values.province %}
+              selected
+            {% endif %}
+            >{{ value }}</option>
+        {% endfor %}
+      </select>
+
+      <select name="rooms" id="rooms">
+        <option selected="true" disabled="disabled">Rooms (ALL)</option>
+        {% for key,value in room_choices.items %}
+            <option value="{{ key }}"
+              {% if key == values.rooms %}
+                selected
+              {% endif %}
+            >{{ value }}</option>
+        {% endfor %}
+      </select>
+      <select name="price" id="price">
+        <option selected="true" disabled="disabled">Max Price (Any)</option>
+        {% for key,value in price_choices.items %}
+            <option value="{{ key }}"
+              {% if key == values.price %}
+                selected
+              {% endif %}
+            >{{ value }}</option>
+        {% endfor %}
+      </select>
+      <button class="btn btn__full search__btn">Search Now</button>
+    </form>
+  </section>
+
+  <!-- Breadcrumb start -->
+  <div class="breadcrumb">
+    <ul class="breadcrumb__list">
+      <li class="breadcrumb__item">
+        <a href="{% url 'index' %}" class="breadcrumb__link">Home</a>
+      </li>
+      <li class="breadcrumb__item">
+        <a href="{% url 'listings' %}" class="breadcrumb__link">listings</a>
+      </li>
+      <li class="breadcrumb__item">Search results</li>
+    </ul>
+  </div>
+  <!--Breadcrumb end-->
+
+  <!-- Listings -->
+  <section class="homes mt-osection mb-home">
+    {% if listings %}
+      {% for listing in listings %}
+      <div class="home">
+        <img src="{{ listing.photo_main.url }}" alt="House 1" class="home__img" />
+        <svg class="home__like">
+          <use xlink:href="{% static 'img/sprite.svg' %}#icon-heart-outlined"></use>
+        </svg>
+        <h5 class="home__name">{{ listing.title }}</h5>
+  
+        <div class="home__location">
+          <svg class="home__like">
+            <use xlink:href="{% static 'img/sprite.svg' %}#icon-map-pin"></use>
+            <p>{{listing.country}}</p>
+          </svg>
+        </div>
+  
+        <div class="home__rooms">
+          <svg class="home__like">
+            <use xlink:href="{% static 'img/sprite.svg' %}#icon-profile-male"></use>
+          </svg>
+          <p>{{ listing.rooms }} rooms</p>
+        </div>
+  
+        <div class="home__area">
+          <svg class="home__like">
+            <use xlink:href="{% static 'img/sprite.svg' %}#icon-expand"></use>
+          </svg>
+          <p>{{ listing.sqft }} m<sup>2</sup></p>
+        </div>
+  
+        <div class="home__price">
+          <svg class="home__like">
+            <use xlink:href="{% static 'img/sprite.svg' %}#icon-key"></use>
+          </svg>
+          <p>${{ listing.price | intcomma}}</p>
+        </div>
+        <a href="{% url 'listing' listing.id %}" class="btn home__btn">More Information</a>
+        <!-- <button class="btn home__btn">More Information</button> -->
+      </div>
+      {% endfor %}
+    {% else %}
+      <div class="nolisting">
+        <p class="nolisting__text" style="font-size: 1.8rem">No Listing yet</p>
+      </div>
+    {% endif %}
+  </section>
+{% endblock %}

@@ -1,4 +1,5 @@
 {% extends 'base.html' %} 
+{% load humanize %}
 {% load static %}
 
 {% block content %}
@@ -17,16 +18,22 @@
   </section>
 
   <!-- Top 3 Realtors -->
+  
   <div class="realtors">
     <h3 class="heading-3 realtors__heading">Top 3 Realtors</h3>
     <div class="realtors__list">
-      <img src="img/realtor-1.jpeg" alt="Realtor 1" class="realtors__img" />
-      <div class="realtors__details">
-        <h4 class="heading-4 heading-4--light">Erik Feinman</h4>
-        <p class="realtors__sold">245 houses sold</p>
-      </div>
+      {% if top_three %}
+        {% for realtor in top_three %}
+          <img src="{{ realtor.photo.url }}" alt="Realtor 1" class="realtors__img" />
+          <div class="realtors__details">
+          <h4 class="heading-4 heading-4--light">{{ realtor.name }}</h4>
+          <p class="realtors__sold">{{ realtor.sold_houses }} houses sold</p>
+        </div>
+        {% endfor %}
+    {% endif %}
+      
 
-      <img src="img/realtor-2.jpeg" alt="Realtor 2" class="realtors__img" />
+      <!-- <img src="img/realtor-2.jpeg" alt="Realtor 2" class="realtors__img" />
       <div class="realtors__details">
         <h4 class="heading-4 heading-4--light">Kim Brown</h4>
         <p class="realtors__sold">212 houses sold</p>
@@ -36,7 +43,7 @@
       <div class="realtors__details">
         <h4 class="heading-4 heading-4--light">Toby Ramsey</h4>
         <p class="realtors__sold">198 houses sold</p>
-      </div>
+      </div> -->
     </div>
   </div>
 
@@ -49,46 +56,32 @@
         luxurious Villas to residential homes, to flats.
       </p>
     </div>
-    <form action="#" class="search__form">
+    <form action="{% url 'search' %}" class="search__form">
       <input
         type="text"
-        name="keyword"
-        id="keyword"
+        name="keywords"
+        id="keywords"
         placeholder="Keywords (Pool, Garage etc)"
       />
       <input type="text" name="city" id="city" placeholder="City" />
       <select name="province" id="province">
-        <option selected="true" disabled="disabled">State (ALL)</option>
-        <option value="KPK">Khyber Pakhtunkhwa</option>
-        <option value="PUN">Punjab</option>
-        <option value="SIN">Sindh</option>
-        <option value="GB">Gilgit Baltistan</option>
-        <option value="BAL">Balochistan</option>
+        <option selected="true" disabled="disabled">Province (ALL)</option>
+        {% for key, value in province_choices.items %}
+          <option value="{{key}}">{{ value }}</option>
+        {% endfor %}
       </select>
 
-      <select name="bedrooms" id="bedrooms">
-        <option selected="true" disabled="disabled">Bedrooms (ALL)</option>
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-        <option>5</option>
-        <option>6</option>
-        <option>7</option>
-        <option>8</option>
-        <option>9</option>
-        <option>10</option>
+      <select name="rooms" id="rooms">
+        <option selected="true" disabled="disabled">Rooms (ALL)</option>
+        {% for key,value in room_choices.items %}
+          <option value="{{ key }}">{{ value }}</option>
+        {% endfor %}
       </select>
-      <select name="max_price" id="max_price">
+      <select name="price" id="price">
         <option selected="true" disabled="disabled">Max Price (Any)</option>
-        <option value="1000000">Rs 10,00,000</option>
-        <option value="2000000">Rs 20,00,000</option>
-        <option value="3000000">Rs 30,00,000</option>
-        <option value="4000000">Rs 40,00,000</option>
-        <option value="5000000">Rs 50,00,000</option>
-        <option value="6000000">Rs 60,00,000</option>
-        <option value="7000000">Rs 70,00,000</option>
-        <option value="7000000">Rs 70 Lakh+</option>
+        {% for key,value in price_choices.items %}
+          <option value="{{ key }}">{{ value }}</option>
+        {% endfor %}
       </select>
       <button class="btn btn__full search__btn">Search Now</button>
     </form>
@@ -194,248 +187,53 @@
 
   <!-- Listings -->
   <section class="homes mt-home mb-home">
-    <!-- Listing 1 -->
-    <div class="home">
-      <img src="img/house-1.jpeg" alt="House 1" class="home__img" />
-      <svg class="home__like">
-        <use xlink:href="img/sprite.svg#icon-heart-outlined"></use>
-      </svg>
 
-      <h5 class="home__name">Beautiful family house</h5>
-
-      <div class="home__location">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-map-pin"></use>
-        </svg>
-        <p>USA</p>
+    {% if listings %}
+      {% for listing in listings %}
+        <div class="home">
+          <img src="{{ listing.photo_main.url }}" alt="House 1" class="home__img" />
+          <svg class="home__like">
+            <use xlink:href="{% static 'img/sprite.svg'%}#icon-heart-outlined"></use>
+          </svg>
+    
+          <h5 class="home__name">{{ listing.title }}</h5>
+    
+          <div class="home__location">
+            <svg class="home__like">
+              <use xlink:href="{% static 'img/sprite.svg' %}#icon-map-pin"></use>
+            </svg>
+            <p>{{ listing.country }}</p>
+          </div>
+    
+          <div class="home__rooms">
+            <svg class="home__like">
+              <use xlink:href="{% static 'img/sprite.svg' %}#icon-profile-male"></use>
+            </svg>
+            <p>{{listing.rooms}} rooms</p>
+          </div>
+    
+          <div class="home__area">
+            <svg class="home__like">
+              <use xlink:href="{% static 'img/sprite.svg' %}#icon-expand"></use>
+            </svg>
+            <p>{{listing.sqft}} m<sup>2</sup></p>
+          </div>
+    
+          <div class="home__price">
+            <svg class="home__like">
+              <use xlink:href="{% static 'img/sprite.svg' %}#icon-key"></use>
+            </svg>
+            <p>${{ listing.price | intcomma }}</p>
+          </div>
+          <a href="{% url 'listing' listing.id %}" class="btn home__btn">More Information</a>
+          <!-- <button class="btn home__btn">More Information</button> -->
+        </div>
+      {% endfor %}
+    {% else %}
+      <div class="nolisting" style="font-size: 1.8rem">
+        <p class="nolisting__text text-center">No Listings available</p>
       </div>
-
-      <div class="home__rooms">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-profile-male"></use>
-        </svg>
-        <p>5 rooms</p>
-      </div>
-
-      <div class="home__area">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-expand"></use>
-        </svg>
-        <p>325 m<sup>2</sup></p>
-      </div>
-
-      <div class="home__price">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-key"></use>
-        </svg>
-        <p>$1,200,000</p>
-      </div>
-      <a href="listing.html" class="btn home__btn">More Information</a>
-      <!-- <button class="btn home__btn">More Information</button> -->
-    </div>
-
-    <!-- Listing 2 -->
-    <div class="home">
-      <img src="img/house-2.jpeg" alt="House 2" class="home__img" />
-      <svg class="home__like">
-        <use xlink:href="img/sprite.svg#icon-heart-outlined"></use>
-      </svg>
-
-      <h5 class="home__name">Modern Glass Villa</h5>
-
-      <div class="home__location">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-map-pin"></use>
-        </svg>
-        <p>Cananda</p>
-      </div>
-
-      <div class="home__rooms">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-profile-male"></use>
-        </svg>
-        <p>6 rooms</p>
-      </div>
-
-      <div class="home__area">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-expand"></use>
-        </svg>
-        <p>450 m<sup>2</sup></p>
-      </div>
-
-      <div class="home__price">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-key"></use>
-        </svg>
-        <p>$2,750,000</p>
-      </div>
-
-      <a href="#" class="btn home__btn">More Information</a>
-      <!-- <button class="btn home__btn">More Information</button> -->
-    </div>
-
-    <!-- Listing 3 -->
-    <div class="home">
-      <img src="img/house-3.jpeg" alt="House 3" class="home__img" />
-      <svg class="home__like">
-        <use xlink:href="img/sprite.svg#icon-heart-outlined"></use>
-      </svg>
-
-      <h5 class="home__name">Cozy Country House</h5>
-
-      <div class="home__location">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-map-pin"></use>
-        </svg>
-        <p>UK</p>
-      </div>
-
-      <div class="home__rooms">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-profile-male"></use>
-        </svg>
-        <p>4 rooms</p>
-      </div>
-
-      <div class="home__area">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-expand"></use>
-        </svg>
-        <p>250 m<sup>2</sup></p>
-      </div>
-
-      <div class="home__price">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-key"></use>
-        </svg>
-        <p>$850,000</p>
-      </div>
-
-      <a href="#" class="btn home__btn">More Information</a>
-      <!-- <button class="btn home__btn">More Information</button> -->
-    </div>
-
-    <!-- Listing 4 -->
-    <div class="home">
-      <img src="img/house-4.jpeg" alt="House 4" class="home__img" />
-      <svg class="home__like">
-        <use xlink:href="img/sprite.svg#icon-heart-outlined"></use>
-      </svg>
-
-      <h5 class="home__name">Large Rustical Villa</h5>
-
-      <div class="home__location">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-map-pin"></use>
-        </svg>
-        <p>Portugal</p>
-      </div>
-
-      <div class="home__rooms">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-profile-male"></use>
-        </svg>
-        <p>6 rooms</p>
-      </div>
-
-      <div class="home__area">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-expand"></use>
-        </svg>
-        <p>480 m<sup>2</sup></p>
-      </div>
-
-      <div class="home__price">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-key"></use>
-        </svg>
-        <p>$1,950,000</p>
-      </div>
-      <button class="btn home__btn">More Information</button>
-    </div>
-
-    <!-- Listing 5 -->
-    <div class="home">
-      <img src="img/house-5.jpeg" alt="House 5" class="home__img" />
-      <svg class="home__like js__like">
-        <use xlink:href="img/sprite.svg#icon-heart-outlined"></use>
-      </svg>
-
-      <h5 class="home__name">Majestic Palace House</h5>
-
-      <div class="home__location">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-map-pin"></use>
-        </svg>
-        <p>Germany</p>
-      </div>
-
-      <div class="home__rooms">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-profile-male"></use>
-        </svg>
-        <p>18 rooms</p>
-      </div>
-
-      <div class="home__area">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-expand"></use>
-        </svg>
-        <p>4230 m<sup>2</sup></p>
-      </div>
-
-      <div class="home__price">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-key"></use>
-        </svg>
-        <p>$9,500,000</p>
-      </div>
-
-      <a href="#" class="btn home__btn">More Information</a>
-      <!-- <button class="btn home__btn">More Information</button> -->
-    </div>
-
-    <!-- Listing 6 -->
-    <div class="home">
-      <img src="img/house-6.jpeg" alt="House 6" class="home__img" />
-      <svg class="home__like">
-        <use xlink:href="img/sprite.svg#icon-heart-outlined"></use>
-      </svg>
-
-      <h5 class="home__name">Modern Family Apartment</h5>
-
-      <div class="home__location">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-map-pin"></use>
-        </svg>
-        <p>Italy</p>
-      </div>
-
-      <div class="home__rooms">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-profile-male"></use>
-        </svg>
-        <p>3 rooms</p>
-      </div>
-
-      <div class="home__area">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-expand"></use>
-        </svg>
-        <p>180 m<sup>2</sup></p>
-      </div>
-
-      <div class="home__price">
-        <svg class="home__like">
-          <use xlink:href="img/sprite.svg#icon-key"></use>
-        </svg>
-        <p>$600,000</p>
-      </div>
-
-      <a href="#" class="btn home__btn">More Information</a>
-      <!-- <button class="btn home__btn">More Information</button> -->
-    </div>
+    {% endif %}
   </section>
 
   <!-- Gallery -->
