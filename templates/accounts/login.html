@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="login mt-home mb-home">
+    {% include 'partials/_alerts.html' %}
+    <div class="card__wrapper">
+      <div class="login__title">
+        <h1 class="heading-3 heading-3--light login__heading">
+          Login to your account
+        </h1>
+        <a href="signup.html" class="login__link">Sign Up</a>
+      </div>
+      <form action="{% url 'login' %}" class="form" method="POST">
+          {% csrf_token %}
+        <div class="form__group">
+          <input
+            type="text"
+            name="username"
+            id="username"
+            placeholder="Username"
+            class="form__input"
+            required
+          />
+          <label for="username" class="form__label">Username:</label>
+        </div>
+        <div class="form__group">
+          <input
+            type="password"
+            name="password"
+            id="password"
+            placeholder="password"
+            class="form__input"
+            required
+          />
+          <label for="password" class="form__label">Password</label>
+        </div>
+        <div class="form__group">
+          <button class="btn form__btn">
+            Sign in and Continue <span class="right-arrow">&rarr;</span>
+          </button>
+        </div>
+        <div class="form__group text-center">
+          <a href="#" class="form__link">Forgot email or password</a>
+        </div>
+      </form>
+    </div>
+  </section>
+{% endblock %}

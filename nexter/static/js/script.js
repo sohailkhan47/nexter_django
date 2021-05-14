@@ -64,3 +64,7 @@ const liked = document.querySelector('.home__liked');
 //   likeJs.addEventListener('click', function () {
 //   }
 // };
+
+setTimeout(function () {
+  $('#message').fadeOut('slow');
+}, 3000);

@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!--Showcase Start-->
+<div class="showcase">
+    <h1 class="heading-1">User Dashboard</h1>
+    <h2 class="heading-3 heading-3--light showcase__heading">
+      Manage your Nexter account
+    </h2>
+  </div>
+  <!-- Showcase End-->
+
+  <!-- Breadcrumb start -->
+  <div class="breadcrumb">
+    <ul class="breadcrumb__list">
+      <li class="breadcrumb__item">
+        <a href="{% url 'index' %}" class="breadcrumb__link">Home</a>
+      </li>
+      <li class="breadcrumb__item">Dashboard</li>
+    </ul>
+  </div>
+  <!--Breadcrumb end-->
+
+  <section class="mt-osection mb-osection dashboard">
+    
+  {% include 'partials/_alerts.html' %}
+    
+  <div class="dashboard__title">
+      <h2 class="heading-2">Welcome User</h2>
+      <p class="dashboard__text">
+        Here are the property listings that you have inquired about.
+      </p>
+    </div>
+    <div class="dashboard__content">
+      <table class="table">
+        <thead class="table__head">
+          <tr class="table__row">
+            <th>#</th>
+            <th>Property</th>
+            <th>&nbsp;</th>
+          </tr>
+        </thead>
+        <tbody class="table__body">
+          <tr class="table__row">
+            <td>22</td>
+            <td>Beautiful Family House</td>
+            <td><button class="btn__table">View Listing</button></td>
+          </tr>
+          <tr class="table__row">
+            <td>44</td>
+            <td>Cozy Country House</td>
+            <td><button class="btn__table">View Listing</button></td>
+          </tr>
+          <tr class="table__row">
+            <td>12</td>
+            <td>Modern Glass Villa</td>
+            <td><button class="btn__table">View Listing</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+{% endblock content %}

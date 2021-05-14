@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="showcase">
+    <h1 class="heading-1">Sign Up</h1>
+    <h2 class="heading-3 heading-3--light showcase__heading">
+      Make an account for yourself now
+    </h2>
+  </div>
+
+  <section class="login mt-osection mb-home">
+      {% include 'partials/_alerts.html' %}
+    <div class="card__wrapper">
+        
+      <div class="login__title">
+        <h1 class="heading-3 heading-3--light login__heading">
+          Sign up for an account!
+        </h1>
+        <a href="login.html" class="login__link">Login</a>
+      </div>
+      <form action="{% url 'signup' %}" class="form" method="POST">
+          {% csrf_token %}
+        <div class="form__group">
+          <input
+            type="text"
+            name="first_name"
+            id="first_name"
+            placeholder="Full Name"
+            class="form__input"
+            required
+          />
+          <label for="full_name" class="form__label">Full Name:</label>
+        </div>
+
+        <div class="form__group">
+          <input
+            type="text"
+            name="username"
+            id="username"
+            placeholder="User Name"
+            class="form__input"
+            required
+          />
+          <label for="username" class="form__label">User Name:</label>
+        </div>
+
+        <div class="form__group">
+          <input
+            type="email"
+            name="email"
+            id="email"
+            placeholder="Email"
+            class="form__input"
+            required
+          />
+          <label for="email" class="form__label">Email:</label>
+        </div>
+        <div class="form__group">
+          <input
+            type="password"
+            name="password"
+            id="password"
+            placeholder="Password"
+            class="form__input"
+            required
+          />
+          <label for="password" class="form__label">Password</label>
+        </div>
+        <div class="form__group">
+          <input
+            type="password"
+            name="password2"
+            id="password2"
+            placeholder="Confirm Password"
+            class="form__input"
+            required
+          />
+          <label for="password2" class="form__label">Confirm Password</label>
+        </div>
+        <div class="form__group">
+          <button class="btn form__btn">
+            Sign in and Continue <span class="right-arrow">&rarr;</span>
+          </button>
+        </div>
+        <div class="form__group text-center">
+          <a href="#" class="form__link">Having trouble signing up</a>
+        </div>
+      </form>
+    </div>
+  </section>
+{% endblock %}

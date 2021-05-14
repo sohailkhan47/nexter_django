@@ -30,20 +30,55 @@
         >
           <a href="{% url 'listings' %}" class="header__link">Listings</a>
         </li>
-        <li class="header__item">
-          <a href="login.html" class="header__link header__icons">
-            <svg class="header__icon">
-              <use xlink:href="{% static 'img/sprite.svg' %}#icon-log-out"></use></svg
-            >Login</a
+        {% if user.is_authenticated %}
+          <li 
+          {% if 'dashboard' in request.path %}
+            class="header__item active"
+          {% else %}
+            class="header__item"
+          {% endif %}
+          
           >
-        </li>
-        <li class="header__item">
-          <a href="signup.html" class="header__link header__icons">
-            <svg class="header__icon">
-              <use xlink:href="{% static 'img/sprite.svg' %}#icon-add-user"></use></svg
-            >Sign up</a
+            <a href="{% url 'dashboard' %}" class="header__link"> Welcome {{ user.username }} (Dashboard)</a>
+          </li>
+          <li class="header__item">
+            <a href="javascript:{document.getElementById('logout').submit()}" class="header__link">
+              <svg class="header__icon">
+                <use xlink:href="{% static 'img/sprite.svg' %}#icon-switch"></use></svg
+              >Logout</a>
+              <form action="{% url 'logout' %}" method="POST" id="logout">
+                {% csrf_token %}
+                <input type="hidden">
+              </form>
+          </li>
+        {% else %}
+          <li
+            {% if 'login' in request.path %}
+              class="header__item active"
+            {% else %}
+              class="header__item"
+            {% endif %}
           >
-        </li>
+            <a href="{% url 'login' %}" class="header__link header__icons">
+              <svg class="header__icon">
+                <use xlink:href="{% static 'img/sprite.svg' %}#icon-log-out"></use></svg
+              >Login</a
+            >
+          </li>
+          <li 
+            {% if 'signup' in request.path %}
+              class="header__item active"
+            {% else %}
+              class="header__item"
+            {% endif %}
+          >
+            <a href="{% url 'signup' %}" class="header__link header__icons">
+              <svg class="header__icon">
+                <use xlink:href="{% static 'img/sprite.svg' %}#icon-add-user"></use></svg
+              >Sign up</a
+            >
+          </li>
+        {% endif %}
       </ul>
     </nav>
     <svg class="header__btn open">
