@@ -132,13 +132,13 @@
 </style>
 {% if messages %}
     {% for message in messages %}
-        <div id="message" class="message_container text-center">
+        <div id="message" class="message_container">
             <div class="alert {{ message.tags }}">
                 <input type="checkbox" id="alert1"/>
                 <label class="close" title="close" for="alert1">
                     <span class="icon-remove">&times;</span>
                 </label>
-                <p class="inner">
+                <p class="inner text-center">
                     <strong>
                         {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
                             Error: 

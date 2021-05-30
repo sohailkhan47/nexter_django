@@ -2,6 +2,8 @@
 {% load static %}
 {% load humanize %}
 
+{% block title %} | {{ listing.title }} {% endblock %}
+
 {% block content %}
 
 <div class="showcase">
@@ -24,6 +26,8 @@
   </div>
 
   <section class="listing mt-osection">
+  {% include 'partials/_alerts.html' %}
+
     <div class="listing__gallery">
         <!-- Home main image -->
       <figure class="listing__figure listing__figure--1">
@@ -201,13 +205,22 @@
       <button class="popup__close">&times;</button>
     </div>
 
-    <form action="#" class="popup__form">
+    <form action="{% url 'contact' %}" class="popup__form" method="POST">
+      {% csrf_token %}
+      {% if user.is_authenticatd %}
+        <input type="hidden" name="user_id" value="{{ user.id }}">
+      {% else %}
+        <input type="hidden" name="user_id" value="0">
+      {% endif %}
+      <input type="hidden" name="realtor_email" value="{{ listing.realtor.email }}">
+      <input type="hidden" name="listing_id" value="{{ listing.id }}">
       <div class="popup__group">
         <input
           type="text"
-          name="property"
+          name="listing"
           id="property"
           placeholder="Property"
+          value="{{ listing.title }}"
           class="popup__input"
           required
         />
@@ -217,11 +230,12 @@
       <div class="popup__group">
         <input
           type="text"
-          name="fullname"
+          name="name"
           id="name"
           placeholder="Full Name"
           class="popup__input"
           required
+          {% if user.is_authenticated %} value="{{ user.first_name }}" {% endif %}
         />
         <label for="name" class="popup__label">Name:</label>
       </div>
@@ -233,13 +247,14 @@
           placeholder="Email"
           class="popup__input"
           required
+          {% if user.is_authenticated %} value="{{ user.email }}" {% endif %}
         />
         <label for="email" class="popup__label">Email:</label>
       </div>
       <div class="popup__group">
         <input
           type="number"
-          name="number"
+          name="phone"
           id="number"
           class="popup__input"
           placeholder="Number"
@@ -250,12 +265,12 @@
       <div class="popup__group">
         <textarea
           name="message"
-          id="message"
+          id="message_form"
           rows="3"
           placeholder="message"
           class="popup__input"
         ></textarea>
-        <label for="message" class="popup__label">Message:</label>
+        <label for="message_form" class="popup__label">Message:</label>
       </div>
       <button class="btn btn__full">Send</button>
     </form>

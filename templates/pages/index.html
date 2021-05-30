@@ -2,12 +2,13 @@
 {% load humanize %}
 {% load static %}
 
+{% block title %} | Welcome {% endblock %}
 {% block content %}
 <!-- Showcase -->
 <section class="showcase--home">
     <h3 class="heading-3">Your own home</h3>
     <h1 class="heading-1">The Ultimate Personal Freedom</h1>
-    <button class="btn showcase--home__btn">View our properties</button>
+    <a class="btn showcase--home__btn" href="{% url 'listings' %}">View our properties</a>
     <div class="showcase--home__seenon-text">As Seen on</div>
     <div class="showcase--home__seenon-logos">
       <img src="{% static 'img/logo-bbc.png' %}" alt="Seen on logo 1" />
@@ -172,7 +173,7 @@
       distinctio necessitatibus pariatur voluptatibus. Quidem consequatur
       harum volupta!
     </p>
-    <button class="btn">Find your own home</button>
+    <a class="btn" href="{% url 'listings' %}">Find your own home</a>
   </div>
 
   <!-- Listings -->
@@ -182,7 +183,7 @@
       {% for listing in listings %}
         <div class="home">
           <img src="{{ listing.photo_main.url }}" alt="House 1" class="home__img" />
-          <svg class="home__like">
+          <svg class="home__like hidden__main">
             <use xlink:href="{% static 'img/sprite.svg'%}#icon-heart-outlined"></use>
           </svg>
     

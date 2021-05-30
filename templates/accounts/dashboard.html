@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% block title %} | User Dashboard {% endblock %}
+
 {% block content %}
 <!--Showcase Start-->
 <div class="showcase">
@@ -21,43 +23,49 @@
   </div>
   <!--Breadcrumb end-->
 
-  <section class="mt-osection mb-osection dashboard">
+  <section class="mt-osection mb-home dashboard">
     
   {% include 'partials/_alerts.html' %}
     
   <div class="dashboard__title">
-      <h2 class="heading-2">Welcome User</h2>
+      <h2 class="heading-2">Welcome {{ user.first_name }}</h2>
       <p class="dashboard__text">
         Here are the property listings that you have inquired about.
       </p>
     </div>
-    <div class="dashboard__content">
-      <table class="table">
-        <thead class="table__head">
-          <tr class="table__row">
-            <th>#</th>
-            <th>Property</th>
-            <th>&nbsp;</th>
-          </tr>
-        </thead>
-        <tbody class="table__body">
-          <tr class="table__row">
-            <td>22</td>
-            <td>Beautiful Family House</td>
-            <td><button class="btn__table">View Listing</button></td>
-          </tr>
-          <tr class="table__row">
-            <td>44</td>
-            <td>Cozy Country House</td>
-            <td><button class="btn__table">View Listing</button></td>
-          </tr>
-          <tr class="table__row">
-            <td>12</td>
-            <td>Modern Glass Villa</td>
-            <td><button class="btn__table">View Listing</button></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    {% if contacts %}
+      <div class="dashboard__content">
+        <table class="table">
+          <thead class="table__head">
+            <tr class="table__row">
+              <th>#</th>
+              <th>Property</th>
+              <th>&nbsp;</th>
+            </tr>
+          </thead>
+          <tbody class="table__body">
+            {% for contact in contacts %}
+            <tr class="table__row">
+              <td>{{ contact.id }}</td>
+              <td>{{ contact.listing }}</td>
+              <td><a class="btn__table" href="{% url 'listing' contact.listing_id %}">View Listing</a></td>
+            </tr>
+            {% endfor %}
+            <!-- <tr class="table__row">
+              <td>44</td>
+              <td>Cozy Country House</td>
+              <td><button class="btn__table">View Listing</button></td>
+            </tr>
+            <tr class="table__row">
+              <td>12</td>
+              <td>Modern Glass Villa</td>
+              <td><button class="btn__table">View Listing</button></td>
+            </tr> -->
+          </tbody>
+        </table>
+      </div>
+    {% else%}
+    <p class="text-center">You have not made any inquiries</p>
+    {% endif %}
   </section>
 {% endblock content %}

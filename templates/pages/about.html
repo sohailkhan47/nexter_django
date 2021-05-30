@@ -1,5 +1,8 @@
 {% extends 'base.html' %} 
 {% load static %}
+
+{% block title %} | About Us {% endblock %}
+
 {% block content %}
 <div class="showcase">
     <h1 class="heading-1">About Nexter</h1>
@@ -13,7 +16,7 @@
       <li class="breadcrumb__item">
         <a href="{% url 'index' %}" class="breadcrumb__link">Home</a>
       </li>
-      <li class="breadcrumb__item">about</li>
+      <li class="breadcrumb__item">About</li>
     </ul>
   </div>
 
