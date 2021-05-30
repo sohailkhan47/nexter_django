@@ -68,7 +68,7 @@
       {% for listing in listings %}
       <div class="home">
         <img src="{{ listing.photo_main.url }}" alt="House 1" class="home__img" />
-        <svg class="home__like">
+        <svg class="home__like hidden__main">
           <use xlink:href="{% static 'img/sprite.svg' %}#icon-heart-outlined"></use>
         </svg>
         <h5 class="home__name">{{ listing.title }}</h5>
